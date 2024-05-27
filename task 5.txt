@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        /* CSS styles can be added here */
+    </style>
+</head>
+<body>
+    <h1>Weather App</h1>
+    <input type="text" id="locationInput" placeholder="Enter location">
+    <button onclick="getWeather()">Get Weather</button>
+    <div id="weatherInfo"></div>
+
+    <script>
+        function getWeather() {
+            const apiKey = '547602c01ef7942c38bb88b71cdce91c'; // Replace '547602c01ef7942c38bb88b71cdce91c' with your actual API key
+            const locationInput = document.getElementById('locationInput').value;
+
+            // Construct the API URL
+            const apiUrl = https://api.openweathermap.org/data/2.5/weather?q=${locationInput}&appid=${apiKey}&units=metric;
+
+            // Fetch weather data
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Display weather information
+                    const weatherInfo = document.getElementById('weatherInfo');
+                    weatherInfo.innerHTML = `
+                        <h2>Current Weather in ${data.name}, ${data.sys.country}</h2>
+                        <p>Temperature: ${data.main.temp}°C</p>
+                        <p>Description: ${data.weather[0].description}</p>
+                        <p>Humidity: ${data.main.humidity}%</p>
+                        <p>Wind Speed: ${data.wind.speed} m/s</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                    const weatherInfo = document.getElementById('weatherInfo');
+                    weatherInfo.innerHTML = '<p>Failed to fetch weather data. Please try again later.</p>';
+                });
+        }
+    </script>
+</body>
+</html>
